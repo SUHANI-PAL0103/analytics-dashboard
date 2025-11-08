@@ -53,33 +53,33 @@ export default function DashboardPage() {
   const overviewCards = [
     {
       title: "Total Spend",
-      subtitle: "Overall spend across all invoices",
-      value: stats ? formatCurrency(stats.total_spend_ytd) : "€0",
-      trend: "+12%",
+      period: "(YTD)",
+      value: stats ? formatCurrency(stats.total_spend_ytd) : "€ 12.679,25",
+      trend: "+8.2%",
       trendUp: true,
       trendText: "from last month",
     },
     {
       title: "Total Invoices Processed",
-      subtitle: "",
+      period: "",
       value: stats?.total_invoices.toLocaleString() || "64",
-      trend: "+8%",
+      trend: "+8.2%",
       trendUp: true,
       trendText: "from last month",
     },
     {
       title: "Documents Uploaded",
-      subtitle: "",
+      period: "This Month",
       value: stats?.documents_uploaded.toLocaleString() || "17",
-      trend: "-4%",
+      trend: "-8",
       trendUp: false,
-      trendText: "from last month",
+      trendText: "less from last month",
     },
     {
       title: "Average Invoice Value",
-      subtitle: "",
-      value: stats ? formatCurrency(stats.average_invoice_value) : "€2,455.00",
-      trend: "+5%",
+      period: "",
+      value: stats ? formatCurrency(stats.average_invoice_value) : "€ 2.455,00",
+      trend: "+8.2%",
       trendUp: true,
       trendText: "from last month",
     },
@@ -87,28 +87,36 @@ export default function DashboardPage() {
 
   return (
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-      </div>
-
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {overviewCards.map((card, index) => (
           <Card key={index} className="border-0 shadow-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                {card.title}
-              </CardTitle>
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-sm font-normal text-gray-600">
+                    {card.title}
+                  </CardTitle>
+                  {card.period && (
+                    <span className="text-xs text-gray-400">{card.period}</span>
+                  )}
+                </div>
+                {/* Mini trend chart placeholder */}
+                <div className="w-16 h-8">
+                  <svg viewBox="0 0 60 30" className="w-full h-full">
+                    <polyline
+                      points={card.trendUp ? "0,25 15,20 30,15 45,10 60,5" : "0,5 15,10 30,15 45,20 60,25"}
+                      fill="none"
+                      stroke={card.trendUp ? "#10b981" : "#ef4444"}
+                      strokeWidth="2"
+                    />
+                  </svg>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{card.value}</div>
-              <div className="flex items-center gap-1 mt-1">
-                {card.trendUp ? (
-                  <TrendingUp className="w-3 h-3 text-green-600" />
-                ) : (
-                  <TrendingDown className="w-3 h-3 text-red-600" />
-                )}
+              <div className="text-2xl font-bold text-gray-900 mb-2">{card.value}</div>
+              <div className="flex items-center gap-1">
                 <span className={`text-xs font-medium ${card.trendUp ? 'text-green-600' : 'text-red-600'}`}>
                   {card.trend} {card.trendText}
                 </span>
@@ -122,10 +130,10 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card className="border-0 shadow-sm">
           <CardHeader className="pb-4">
-            <CardTitle className="text-sm font-semibold text-gray-900">
+            <CardTitle className="text-base font-semibold text-gray-900">
               Invoice Volume + Value Trend
             </CardTitle>
-            <p className="text-xs text-gray-500 mt-1">Monthly invoice count and total value</p>
+            <p className="text-xs text-gray-500 mt-1">Invoice count and total spend over 12 months.</p>
           </CardHeader>
           <CardContent className="pt-0">
             <InvoiceTrendsChart data={trends} />
@@ -134,10 +142,10 @@ export default function DashboardPage() {
 
         <Card className="border-0 shadow-sm">
           <CardHeader className="pb-4">
-            <CardTitle className="text-sm font-semibold text-gray-900">
+            <CardTitle className="text-base font-semibold text-gray-900">
               Spend by Vendor (Top 10)
             </CardTitle>
-            <p className="text-xs text-gray-500 mt-1">Top vendors by invoice count and total value</p>
+            <p className="text-xs text-gray-500 mt-1">Vendor spend with cumulative percentage distribution.</p>
           </CardHeader>
           <CardContent className="pt-0">
             <TopVendorsChart data={topVendors} />
@@ -145,14 +153,14 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Charts Row 2 - Spend by Category (left) */}
+      {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="border-0 shadow-sm">
           <CardHeader className="pb-4">
-            <CardTitle className="text-sm font-semibold text-gray-900">
+            <CardTitle className="text-base font-semibold text-gray-900">
               Spend by Category
             </CardTitle>
-            <p className="text-xs text-gray-500 mt-1">Distribution of spending across different categories</p>
+            <p className="text-xs text-gray-500 mt-1">Distribution of spending across different categories.</p>
           </CardHeader>
           <CardContent className="pt-0">
             <CategorySpendChart data={categorySpend} />
@@ -161,10 +169,10 @@ export default function DashboardPage() {
 
         <Card className="border-0 shadow-sm">
           <CardHeader className="pb-4">
-            <CardTitle className="text-sm font-semibold text-gray-900">
+            <CardTitle className="text-base font-semibold text-gray-900">
               Cash Outflow Forecast
             </CardTitle>
-            <p className="text-xs text-gray-500 mt-1">Expected payment obligations grouped by due date</p>
+            <p className="text-xs text-gray-500 mt-1">Expected payment obligations grouped by due date ranges.</p>
           </CardHeader>
           <CardContent className="pt-0">
             <CashOutflowChart />
@@ -173,10 +181,10 @@ export default function DashboardPage() {
 
         <Card className="border-0 shadow-sm">
           <CardHeader className="pb-4">
-            <CardTitle className="text-sm font-semibold text-gray-900">
+            <CardTitle className="text-base font-semibold text-gray-900">
               Invoices by Vendor
             </CardTitle>
-            <p className="text-xs text-gray-500 mt-1">Top vendors by invoice count and net value</p>
+            <p className="text-xs text-gray-500 mt-1">Top vendors by invoice count and net value.</p>
           </CardHeader>
           <CardContent className="pt-0">
             <InvoicesTable />

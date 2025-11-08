@@ -18,17 +18,12 @@ export default function DashboardLayout({
       icon: LayoutDashboard,
     },
     {
-      name: "Chat with Data",
-      href: "/dashboard/chat",
-      icon: MessageSquare,
-    },
-    {
-      name: "Invoices",
+      name: "Invoice",
       href: "/dashboard/invoices",
       icon: FileText,
     },
     {
-      name: "Other Files",
+      name: "Other files",
       href: "/dashboard/files",
       icon: FileText,
     },
@@ -57,9 +52,15 @@ export default function DashboardLayout({
         <div className="h-16 flex items-center px-6 border-b border-gray-200">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">B</span>
+              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
             </div>
-            <span className="font-semibold text-gray-900">Blechbeitung</span>
+            <div>
+              <span className="font-semibold text-gray-900 block">Buchhaltung</span>
+              <span className="text-xs text-gray-500">12 members</span>
+            </div>
           </div>
         </div>
 
@@ -92,15 +93,16 @@ export default function DashboardLayout({
           </nav>
         </div>
 
-        {/* User Profile */}
+        {/* Flowbit AI Branding */}
         <div className="p-4 border-t border-gray-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">AJ</span>
+            <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-gray-900">Amit Jadhav</p>
-              <p className="text-xs text-gray-500">Free Account</p>
+              <p className="text-sm font-bold text-gray-900">Flowbit AI</p>
             </div>
           </div>
         </div>
@@ -109,14 +111,22 @@ export default function DashboardLayout({
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
-        <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-end px-6 gap-4">
-          <button className="relative p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
-            <Settings className="w-5 h-5" />
-          </button>
+        <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+          <div className="flex items-center gap-2">
+            <LayoutDashboard className="w-5 h-5 text-gray-400" />
+            <span className="text-gray-600 font-medium">Dashboard</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center">
+                <span className="text-white font-semibold text-sm">AJ</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-900">Amit Jadhav</p>
+                <p className="text-xs text-gray-500">Admin</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Content */}
