@@ -7,6 +7,10 @@ import re
 import time
 from typing import Optional, List, Dict, Any
 import httpx
+from dotenv import load_dotenv
+
+# Load environment variables from .env file FIRST
+load_dotenv()
 
 app = FastAPI(title="Vanna AI Service", version="1.0.0")
 
@@ -19,10 +23,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Environment variables
+# Environment variables (loaded from .env file above)
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost:5432/analytics")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 VANNA_API_KEY = os.getenv("VANNA_API_KEY", "your-secret-key-here")
+
+# Debug: Print API key status on startup
+print(f"Startup: GROQ_API_KEY loaded = {bool(GROQ_API_KEY)}, length = {len(GROQ_API_KEY) if GROQ_API_KEY else 0}")
 
 # Database pool
 db_pool: Optional[asyncpg.Pool] = None
@@ -145,8 +152,21 @@ async def get_schema_info() -> str:
 async def generate_sql_with_groq(nl_query: str, schema: str) -> str:
     """Use Groq LLM to generate SQL from natural language."""
     
+    # Debug logging
+    debug_log = []
+    debug_log.append(f"GROQ_API_KEY exists: {bool(GROQ_API_KEY)}")
+    debug_log.append(f"Query: {nl_query}")
+    print(f"GROQ_API_KEY exists: {bool(GROQ_API_KEY)}")
+    print(f"Query: {nl_query}")
+    
     if not GROQ_API_KEY:
         # Fallback: return a basic query if no API key
+        msg = "WARNING: No GROQ_API_KEY found, using fallback query"
+        print(msg)
+        debug_log.append(msg)
+        # Write debug log to file
+        with open("debug.log", "w") as f:
+            f.write("\n".join(debug_log))
         return 'SELECT * FROM "Invoice" LIMIT 10;'
     
     prompt = f"""You are a SQL expert. Given the following PostgreSQL database schema and a natural language query, generate a valid SQL SELECT query.
@@ -173,7 +193,7 @@ SQL query:"""
                     "Content-Type": "application/json",
                 },
                 json={
-                    "model": "mixtral-8x7b-32768",  # Fast Groq model
+                    "model": "llama-3.3-70b-versatile",  # Updated to current Groq model
                     "messages": [
                         {"role": "system", "content": "You are a SQL expert. Generate only valid PostgreSQL SELECT queries."},
                         {"role": "user", "content": prompt}
@@ -187,6 +207,7 @@ SQL query:"""
             data = response.json()
             
             sql = data["choices"][0]["message"]["content"].strip()
+            print(f"Groq API response: {sql[:100]}...")
             
             # Clean up SQL (remove markdown code blocks if present)
             sql = re.sub(r"```sql\s*", "", sql)
@@ -196,7 +217,18 @@ SQL query:"""
             return sql
     
     except Exception as e:
-        print(f"Groq API error: {e}")
+        error_msg = f"Groq API error: {type(e).__name__}: {str(e)}"
+        key_info = f"API Key length: {len(GROQ_API_KEY) if GROQ_API_KEY else 0}"
+        key_preview = f"API Key first 10 chars: {GROQ_API_KEY[:10] if GROQ_API_KEY else 'NONE'}"
+        
+        print(error_msg)
+        print(key_info)
+        print(key_preview)
+        
+        # Write debug info to file
+        with open("debug.log", "w") as f:
+            f.write(f"{error_msg}\n{key_info}\n{key_preview}\n")
+        
         # Fallback query
         return f'SELECT * FROM "Invoice" LIMIT 10;  -- Groq API unavailable'
 
