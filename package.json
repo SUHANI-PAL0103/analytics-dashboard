@@ -1,0 +1,26 @@
+{
+  "name": "analytics-mono",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "apps/*",
+    "services/*"
+  ],
+  "scripts": {
+    "bootstrap": "npm install",
+    "dev:all": "concurrently \"npm:dev:web\" \"npm:dev:api\" \"npm:dev:vanna\"",
+    "dev:web": "npm --workspace=apps/web run dev",
+    "dev:api": "npm --workspace=apps/api run dev",
+    "dev:vanna": "cd services/vanna && .venv/Scripts/python -m uvicorn main:app --reload --port 8000",
+    "build:all": "npm run build:web && npm run build:api",
+    "build:web": "npm --workspace=apps/web run build",
+    "build:api": "npm --workspace=apps/api run build",
+    "db:migrate": "npm --workspace=apps/api run prisma:migrate",
+    "db:seed": "npm --workspace=apps/api run db:seed",
+    "db:studio": "npm --workspace=apps/api run prisma:studio"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  }
+}
