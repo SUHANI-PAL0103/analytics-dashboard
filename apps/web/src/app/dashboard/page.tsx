@@ -91,33 +91,34 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {overviewCards.map((card, index) => (
           <Card key={index} className="border-0 shadow-sm">
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-sm font-normal text-gray-600">
+                <div className="flex-1">
+                  <div className="text-sm font-normal text-gray-900 mb-0.5">
                     {card.title}
-                  </CardTitle>
+                  </div>
                   {card.period && (
-                    <span className="text-xs text-gray-400">{card.period}</span>
+                    <div className="text-xs text-gray-500">{card.period}</div>
                   )}
                 </div>
-                {/* Mini trend chart placeholder */}
-                <div className="w-16 h-8">
-                  <svg viewBox="0 0 60 30" className="w-full h-full">
+                {/* Mini trend chart */}
+                <div className="w-20 h-10 ml-2">
+                  <svg viewBox="0 0 80 40" className="w-full h-full" preserveAspectRatio="none">
                     <polyline
-                      points={card.trendUp ? "0,25 15,20 30,15 45,10 60,5" : "0,5 15,10 30,15 45,20 60,25"}
+                      points={card.trendUp ? "0,35 20,28 40,22 60,15 80,8" : "0,8 20,15 40,22 60,28 80,35"}
                       fill="none"
                       stroke={card.trendUp ? "#10b981" : "#ef4444"}
-                      strokeWidth="2"
+                      strokeWidth="2.5"
+                      vectorEffect="non-scaling-stroke"
                     />
                   </svg>
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-gray-900 mb-2">{card.value}</div>
+            <CardContent className="pt-2">
+              <div className="text-3xl font-bold text-gray-900 mb-1">{card.value}</div>
               <div className="flex items-center gap-1">
-                <span className={`text-xs font-medium ${card.trendUp ? 'text-green-600' : 'text-red-600'}`}>
+                <span className={`text-sm ${card.trendUp ? 'text-green-600' : 'text-red-600'}`}>
                   {card.trend} {card.trendText}
                 </span>
               </div>

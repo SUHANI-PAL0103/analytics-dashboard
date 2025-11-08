@@ -26,19 +26,19 @@ export default function TopVendorsChart({ data }: Props) {
         label: "Total Spend",
         data: data.map((d) => d.spend),
         backgroundColor: [
-          "#1E1B4B", // Dark navy - Global Supply (Figma)
-          "#312E81", // Navy
-          "#3730A3", // Medium navy  
-          "#4338CA", // Indigo
-          "#4F46E5", // Light indigo
-          "#6366F1", // Lighter indigo
-          "#818CF8", // Even lighter
-          "#A5B4FC", // Pale
-          "#C7D2FE", // Very pale
-          "#E0E7FF", // Almost white
+          "#1E1B4B", // Dark navy - OmegaLtd (darkest)
+          "#312E81", // Navy - DeltaServices
+          "#4338CA", // Medium navy - PrimeVendors
+          "#5B21B6", // Purple - Test Solutions  
+          "#6366F1", // Indigo - AcmeCorp
+          "#818CF8", // Light indigo
+          "#A5B4FC", // Lighter
+          "#C7D2FE", // Even lighter
+          "#E0E7FF", // Very pale
+          "#EDE9FE", // Almost white
         ],
-        borderRadius: 4,
-        barThickness: 20,
+        borderRadius: 6,
+        barThickness: 24,
       },
     ],
   };
