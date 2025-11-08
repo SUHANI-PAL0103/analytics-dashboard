@@ -16,12 +16,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 export default function CashOutflowChart() {
   // Sample forecast data
   const chartData = {
-    labels: ["0-7 days", "8-15 days", "16-30 days", "31+ days"],
+    labels: ["0-7 days", "8-30 days", "31-60 days", "60+ days"],
     datasets: [
       {
         label: "Expected Outflow",
-        data: [4800, 8200, 12400, 5600],
-        backgroundColor: ["#312e81", "#4338ca", "#6366f1", "#c7d2fe"],
+        data: [4800, 8200, 3400, 12400],
+        backgroundColor: "#1E1B4B", // Dark navy (Figma)
         borderRadius: 6,
         barThickness: 60,
       },

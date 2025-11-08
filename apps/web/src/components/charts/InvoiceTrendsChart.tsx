@@ -34,24 +34,26 @@ export default function InvoiceTrendsChart({ data }: Props) {
       {
         label: "Invoice count",
         data: data.map((d) => d.invoice_count),
-        borderColor: "#6366f1",
-        backgroundColor: "rgba(99, 102, 241, 0.1)",
+        borderColor: "#1E1B4B", // Dark navy (Figma)
+        backgroundColor: "rgba(30, 27, 75, 0.1)",
         tension: 0.4,
         fill: true,
         yAxisID: "y",
         pointRadius: 4,
-        pointBackgroundColor: "#6366f1",
+        pointBackgroundColor: "#1E1B4B",
+        borderWidth: 2,
       },
       {
         label: "Total Spend",
         data: data.map((d) => d.spend),
-        borderColor: "#3b82f6",
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
+        borderColor: "#6366F1", // Light indigo (Figma)
+        backgroundColor: "rgba(99, 102, 241, 0.1)",
         tension: 0.4,
         fill: true,
         yAxisID: "y1",
         pointRadius: 4,
-        pointBackgroundColor: "#3b82f6",
+        pointBackgroundColor: "#6366F1",
+        borderWidth: 2,
       },
     ],
   };

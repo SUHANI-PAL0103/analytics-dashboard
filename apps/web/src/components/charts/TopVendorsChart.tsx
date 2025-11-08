@@ -26,16 +26,16 @@ export default function TopVendorsChart({ data }: Props) {
         label: "Total Spend",
         data: data.map((d) => d.spend),
         backgroundColor: [
-          "#312e81", // Deep purple - Global Supply
-          "#4338ca", // Purple
-          "#4f46e5", // Indigo  
-          "#6366f1", // Light indigo
-          "#818cf8", // Lighter indigo
-          "#a5b4fc", // Pale indigo
-          "#c7d2fe", // Very pale
-          "#ddd6fe", // Almost white
-          "#e0e7ff",
-          "#ede9fe",
+          "#1E1B4B", // Dark navy - Global Supply (Figma)
+          "#312E81", // Navy
+          "#3730A3", // Medium navy  
+          "#4338CA", // Indigo
+          "#4F46E5", // Light indigo
+          "#6366F1", // Lighter indigo
+          "#818CF8", // Even lighter
+          "#A5B4FC", // Pale
+          "#C7D2FE", // Very pale
+          "#E0E7FF", // Almost white
         ],
         borderRadius: 4,
         barThickness: 20,

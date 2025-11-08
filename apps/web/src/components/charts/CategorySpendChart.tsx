@@ -12,9 +12,9 @@ interface Props {
 
 export default function CategorySpendChart({ data }: Props) {
   const colors = [
-    "#fbbf24", // Operations - orange/yellow
-    "#f97316", // Marketing - orange
-    "#3b82f6", // R&D - blue
+    "#0066FF", // Operations - blue (Figma)
+    "#FF8A65", // Marketing - coral (Figma)
+    "#FFB085", // Facilities - peach (Figma)
   ];
 
   const chartData = {
